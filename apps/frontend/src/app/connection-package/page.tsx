@@ -6,11 +6,10 @@ import { ArrowLeftIcon, DocumentArrowDownIcon } from '@heroicons/react/24/outlin
 import Link from 'next/link'
 import axios from 'axios'
 import { ConnectionPackageData } from '../../../../../packages/shared/src'
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3542'
-const SHOW_TEST_BUTTON = process.env.NEXT_PUBLIC_SHOW_TEST_BUTTON === 'true'
+import { useConfig } from '../../hooks/useConfig'
 
 export default function ConnectionPackagePage() {
+  const { config, loading } = useConfig()
   const [isGenerating, setIsGenerating] = useState(false)
   const [generationResult, setGenerationResult] = useState<any>(null)
   const [error, setError] = useState<string | null>(null)
@@ -50,7 +49,7 @@ export default function ConnectionPackagePage() {
     setGenerationResult(null)
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/api/cooperative/connection-package`, data, {
+      const response = await axios.post(`${config.API_URL}/api/cooperative/connection-package`, data, {
         timeout: 60000 // 60 секунд таймаут
       })
 
@@ -73,7 +72,7 @@ export default function ConnectionPackagePage() {
 
   const downloadFiles = () => {
     if (generationResult?.downloadUrl && generationResult?.downloadCode) {
-      const url = `${API_BASE_URL}${generationResult.downloadUrl}?code=${generationResult.downloadCode}`
+      const url = `${config.API_URL}${generationResult.downloadUrl}?code=${generationResult.downloadCode}`
       window.open(url, '_blank')
     }
   }
@@ -89,6 +88,12 @@ export default function ConnectionPackagePage() {
     setValue('protocol_date', '2024-01-15')
   }
 
+  if (loading) {
+    return <div className="flex justify-center items-center min-h-screen">
+      <div className="text-lg">Загрузка...</div>
+    </div>
+  }
+
   return (
     <div className="px-4 sm:px-0">
       {/* Навигация */}
@@ -101,7 +106,7 @@ export default function ConnectionPackagePage() {
 
       <div className="max-w-2xl mx-auto">
         {/* Тестовая кнопка для загрузки данных */}
-        {SHOW_TEST_BUTTON && (
+        {config.SHOW_TEST_BUTTON && (
           <div className="text-center mb-6">
             <button
               type="button"
@@ -158,7 +163,7 @@ export default function ConnectionPackagePage() {
 
                   <div>
                     <label className="form-label">
-                      Сайт
+                      Будущий сайт кооператива
                     </label>
                     <input
                       type="url"
@@ -286,7 +291,7 @@ export default function ConnectionPackagePage() {
 
                   <div>
                     <label className="form-label">
-                      Полная аббревиатура (родительный падеж)
+                      Полная аббревиатура в родительном падеже
                     </label>
                     <input
                       type="text"
@@ -298,7 +303,7 @@ export default function ConnectionPackagePage() {
 
                   <div>
                     <label className="form-label">
-                      Полная аббревиатура (дательный падеж)
+                      Полная аббревиатура в дательном падеже
                     </label>
                     <input
                       type="text"
@@ -311,11 +316,11 @@ export default function ConnectionPackagePage() {
               </div>
 
               {/* Кнопка отправки */}
-              <div className="text-center pt-4">
+              <div className="text-center">
                 <button
                   type="submit"
                   disabled={isGenerating}
-                  className="btn-primary px-8 py-3 text-lg"
+                  className="btn-success px-8 py-3 text-lg"
                 >
                   {isGenerating ? 'Генерация...' : 'Сгенерировать документы'}
                 </button>

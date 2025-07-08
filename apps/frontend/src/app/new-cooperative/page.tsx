@@ -6,11 +6,10 @@ import { ArrowLeftIcon, DocumentArrowDownIcon } from '@heroicons/react/24/outlin
 import Link from 'next/link'
 import axios from 'axios'
 import { NewCooperativeData, Member } from '../../../../../packages/shared/src'
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3542'
-const SHOW_TEST_BUTTON = process.env.NEXT_PUBLIC_SHOW_TEST_BUTTON === 'true'
+import { useConfig } from '../../hooks/useConfig'
 
 export default function NewCooperativePage() {
+  const { config, loading } = useConfig()
   const [isGenerating, setIsGenerating] = useState(false)
   const [generationResult, setGenerationResult] = useState<any>(null)
   const [error, setError] = useState<string | null>(null)
@@ -127,7 +126,7 @@ export default function NewCooperativePage() {
     setGenerationResult(null)
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/api/cooperative/new-cooperative`, data, {
+      const response = await axios.post(`${config.API_URL}/api/cooperative/new-cooperative`, data, {
         timeout: 60000
       })
 
@@ -150,7 +149,7 @@ export default function NewCooperativePage() {
 
   const downloadFiles = () => {
     if (generationResult?.downloadUrl && generationResult?.downloadCode) {
-      const url = `${API_BASE_URL}${generationResult.downloadUrl}?code=${generationResult.downloadCode}`
+      const url = `${config.API_URL}${generationResult.downloadUrl}?code=${generationResult.downloadCode}`
       window.open(url, '_blank')
     }
   }
@@ -377,6 +376,12 @@ export default function NewCooperativePage() {
     )
   }
 
+  if (loading) {
+    return <div className="flex justify-center items-center min-h-screen">
+      <div className="text-lg">Загрузка...</div>
+    </div>
+  }
+
   return (
     <div className="px-4 sm:px-0">
       {/* Навигация */}
@@ -389,7 +394,7 @@ export default function NewCooperativePage() {
 
       <div className="max-w-4xl mx-auto">
         {/* Тестовая кнопка для загрузки данных */}
-        {SHOW_TEST_BUTTON && (
+        {config.SHOW_TEST_BUTTON && (
           <div className="text-center mb-6">
             <button
               type="button"
