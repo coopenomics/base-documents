@@ -1,0 +1,1 @@
+{"version":3,"file":"storage.controller.js","sourceRoot":"","sources":["../../controllers/storage.controller.ts"],"names":[],"mappings":";;;AAAA,0CAA4C;AAGrC,MAAM,WAAW,GAAG,KAAK,EAAE,GAAY,EAAE,GAAa,EAAiB,EAAE;IAC9E,MAAM,KAAK,GAAG,MAAM,yBAAc,CAAC,WAAW,EAAE,CAAA;IAChD,GAAG,CAAC,MAAM,CAAC,GAAG,CAAC,CAAC,IAAI,CAAC,KAAK,CAAC,CAAA;AAC7B,CAAC,CAAA;AAHY,QAAA,WAAW,eAGvB"}

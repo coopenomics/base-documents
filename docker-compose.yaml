@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
+    ports:
+      - "${BACKEND_PORT:-3542}:3542"
+    volumes:
+      - ./apps/backend/data:/app/data
+      - ./apps/backend/temp:/app/temp
+      - ./public:/app/public
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - PORT=3542
+    depends_on:
+      - shared
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile
+    ports:
+      - "${FRONTEND_PORT:-3001}:3001"
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-https://localhost:3542}
+    depends_on:
+      - backend
+      - shared
+    restart: unless-stopped
+
+  shared:
+    build:
+      context: .
+      dockerfile: packages/shared/Dockerfile
+    volumes:
+      - shared-dist:/app/dist
+
+volumes:
+  shared-dist: 
