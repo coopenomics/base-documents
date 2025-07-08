@@ -17,7 +17,7 @@ export function useConfig() {
   useEffect(() => {
     console.log('🔍 useConfig: Запрос конфигурации...')
     
-    fetch('/api/config')
+    fetch('/frontend-api/config')
       .then(res => {
         console.log('🔍 useConfig: Ответ получен, status:', res.status)
         if (!res.ok) {
