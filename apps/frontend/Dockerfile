@@ -62,11 +62,17 @@ RUN mkdir -p /app/apps/frontend/public
 # Копируем public директорию если она существует
 COPY --from=base /app/apps/frontend/public ./apps/frontend/public
 
+# Копируем entrypoint script
+COPY apps/frontend/entrypoint.sh ./apps/frontend/entrypoint.sh
+
 # Переходим в директорию frontend
 WORKDIR /app/apps/frontend
+
+# Делаем entrypoint script исполняемым
+RUN chmod +x entrypoint.sh
 
 # Открываем порт
 EXPOSE 3001
 
-# Запускаем приложение с передачей переменных окружения
-CMD ["sh", "-c", "pnpm start"] 
+# Запускаем приложение через entrypoint script
+CMD ["./entrypoint.sh"] 
