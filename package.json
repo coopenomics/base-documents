@@ -1,0 +1,31 @@
+{
+  "name": "cooperative-document-generator",
+  "version": "1.0.0",
+  "description": "Монорепозиторий для системы генерации документов кооператива",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm run --parallel dev",
+    "build": "pnpm run --recursive build",
+    "start": "pnpm run --filter=@coop/backend start",
+    "dev:backend": "pnpm run --filter=@coop/backend dev",
+    "dev:frontend": "pnpm run --filter=@coop/frontend dev",
+    "build:shared": "pnpm run --filter=@coop/shared build",
+    "build:backend": "pnpm run --filter=@coop/backend build",
+    "build:frontend": "pnpm run --filter=@coop/frontend build",
+    "test": "pnpm run --recursive test",
+    "clean": "pnpm run --recursive clean",
+    "lint": "pnpm run --recursive lint"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  },
+  "keywords": [
+    "docx",
+    "template",
+    "generator",
+    "cooperative",
+    "monorepo"
+  ],
+  "author": "",
+  "license": "ISC"
+}

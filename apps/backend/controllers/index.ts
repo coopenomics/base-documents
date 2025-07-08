@@ -1,0 +1,1 @@
+export * as cooperativeController from './cooperative.controller'
