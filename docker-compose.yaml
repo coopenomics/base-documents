@@ -25,6 +25,8 @@ services:
     environment:
       - NODE_ENV=${NODE_ENV:-production}
       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-https://localhost:3542}
+      - NEXT_PUBLIC_SHOW_TEST_BUTTON=true
+
     depends_on:
       - backend
     restart: unless-stopped 
