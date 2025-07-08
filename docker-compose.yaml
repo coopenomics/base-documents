@@ -14,8 +14,6 @@ services:
     environment:
       - NODE_ENV=${NODE_ENV:-production}
       - PORT=3542
-    depends_on:
-      - shared
     restart: unless-stopped
 
   frontend:
@@ -29,15 +27,4 @@ services:
       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-https://localhost:3542}
     depends_on:
       - backend
-      - shared
-    restart: unless-stopped
-
-  shared:
-    build:
-      context: .
-      dockerfile: packages/shared/Dockerfile
-    volumes:
-      - shared-dist:/app/dist
-
-volumes:
-  shared-dist: 
+    restart: unless-stopped 

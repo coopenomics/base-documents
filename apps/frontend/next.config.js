@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3542',
-  },
+  // Убираем env конфигурацию - Next.js автоматически читает NEXT_PUBLIC_* переменные
 }
 
 module.exports = nextConfig 
