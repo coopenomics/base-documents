@@ -131,7 +131,7 @@ export default function ConnectionPackagePage() {
                 <div className="grid gap-4">
                   <div>
                     <label className="form-label">
-                      Название кооператива *
+                      Название кооператива (без аббревиатуры) * 
                     </label>
                     <input
                       type="text"
@@ -186,6 +186,7 @@ export default function ConnectionPackagePage() {
                     <label className="form-label">
                       Дата протокола *
                     </label>
+                    <p className="form-label">Дата протокола собрания совета, которым будет утвержден пакет документов</p>
                     <input
                       type="date"
                       className="form-input"
