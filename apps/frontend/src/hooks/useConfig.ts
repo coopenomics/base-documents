@@ -15,13 +15,24 @@ export function useConfig() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    console.log('🔍 useConfig: Запрос конфигурации...')
+    
     fetch('/api/config')
-      .then(res => res.json())
+      .then(res => {
+        console.log('🔍 useConfig: Ответ получен, status:', res.status)
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`)
+        }
+        return res.json()
+      })
       .then(data => {
+        console.log('🔍 useConfig: Данные получены:', data)
         setConfig(data)
         setLoading(false)
       })
-      .catch(() => {
+      .catch(error => {
+        console.error('❌ useConfig: Ошибка при загрузке конфигурации:', error)
+        console.error('❌ useConfig: Используется defaultConfig:', defaultConfig)
         setConfig(defaultConfig)
         setLoading(false)
       })

@@ -68,5 +68,5 @@ WORKDIR /app/apps/frontend
 # Открываем порт
 EXPOSE 3001
 
-# Запускаем приложение
-CMD ["pnpm", "start"] 
+# Запускаем приложение с передачей переменных окружения
+CMD ["sh", "-c", "pnpm start"] 
