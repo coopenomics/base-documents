@@ -671,41 +671,52 @@ export default function NewCooperativePage() {
             )}
           </div>
 
-          {/* Кнопка отправки */}
-          <div className="text-center">
-            <button
-              type="submit"
-              disabled={isGenerating}
-              className="btn-success px-8 py-3 text-lg"
-            >
-              {isGenerating ? 'Генерация...' : 'Сгенерировать документы'}
-            </button>
+          {/* Кнопка отправки / плашка с результатом */}
+          <div>
+            {generationResult ? (
+              <div className="card border-success-200 bg-success-50">
+                <div className="card-body text-center">
+                  <div className="flex justify-center mb-4">
+                    <DocumentArrowDownIcon className="h-12 w-12 text-success-600" />
+                  </div>
+                  <h3 className="text-lg font-medium text-success-800 mb-2">
+                    Документы успешно сгенерированы!
+                  </h3>
+                  <p className="text-success-700 mb-4">
+                    Сгенерировано {generationResult.files?.length || 0} документов
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                    <button
+                      type="button"
+                      onClick={downloadFiles}
+                      className="btn-success inline-flex items-center justify-center"
+                    >
+                      <DocumentArrowDownIcon className="h-4 w-4 mr-2" />
+                      Скачать документы
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setGenerationResult(null)}
+                      className="px-4 py-2 border border-success-300 text-success-800 rounded hover:bg-success-100 transition-colors"
+                    >
+                      Сгенерировать ещё раз
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center">
+                <button
+                  type="submit"
+                  disabled={isGenerating}
+                  className="btn-success px-8 py-3 text-lg"
+                >
+                  {isGenerating ? 'Генерация...' : 'Сгенерировать документы'}
+                </button>
+              </div>
+            )}
           </div>
         </form>
-
-        {/* Результат генерации */}
-        {generationResult && (
-          <div className="card mt-6 border-success-200 bg-success-50">
-            <div className="card-body text-center">
-              <div className="flex justify-center mb-4">
-                <DocumentArrowDownIcon className="h-12 w-12 text-success-600" />
-              </div>
-              <h3 className="text-lg font-medium text-success-800 mb-2">
-                Документы успешно сгенерированы!
-              </h3>
-              <p className="text-success-700 mb-4">
-                Сгенерировано {generationResult.files?.length || 0} документов
-              </p>
-              <button
-                onClick={downloadFiles}
-                className="btn-success"
-              >
-                <DocumentArrowDownIcon className="h-4 w-4 mr-2" />
-                Скачать документы
-              </button>
-            </div>
-          </div>
-        )}
 
         {/* Ошибка */}
         {error && (
