@@ -1,8 +1,8 @@
 # Используем Node.js 18 LTS
 FROM node:18-alpine AS base
 
-# Устанавливаем pnpm
-RUN npm install -g pnpm
+# Устанавливаем pnpm 10: без версии npm ставит pnpm 11, он рвёт сборку на ERR_PNPM_IGNORED_BUILDS (esbuild)
+RUN npm install -g pnpm@10
 
 # Рабочая директория
 WORKDIR /app
@@ -36,8 +36,8 @@ FROM node:18-alpine AS production
 # Устанавливаем LibreOffice для конвертации в PDF
 RUN apk add --no-cache libreoffice
 
-# Устанавливаем pnpm
-RUN npm install -g pnpm
+# Устанавливаем pnpm 10: без версии npm ставит pnpm 11, он рвёт сборку на ERR_PNPM_IGNORED_BUILDS (esbuild)
+RUN npm install -g pnpm@10
 
 WORKDIR /app
 

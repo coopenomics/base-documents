@@ -1,8 +1,8 @@
 # Используем Node.js 18 LTS
 FROM node:18-alpine AS base
 
-# Устанавливаем pnpm
-RUN npm install -g pnpm
+# Устанавливаем pnpm 10: без версии npm ставит pnpm 11, он рвёт сборку на ERR_PNPM_IGNORED_BUILDS (esbuild)
+RUN npm install -g pnpm@10
 
 # Рабочая директория
 WORKDIR /app
@@ -37,8 +37,8 @@ RUN pnpm run --filter=@coop/frontend build
 # Создаем production образ
 FROM node:18-alpine AS production
 
-# Устанавливаем pnpm
-RUN npm install -g pnpm
+# Устанавливаем pnpm 10: без версии npm ставит pnpm 11, он рвёт сборку на ERR_PNPM_IGNORED_BUILDS (esbuild)
+RUN npm install -g pnpm@10
 
 WORKDIR /app
 
