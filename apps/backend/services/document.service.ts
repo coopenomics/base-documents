@@ -16,11 +16,23 @@ export interface ProcessResult {
   downloadUrl?: string;
 }
 
+// Месяц в родительном падеже для дат в документах: «15 января», а не «15 январь».
+// toLocaleDateString с одним { month: 'long' } даёт именительный падеж, поэтому
+// названия заданы явно и не зависят от ICU в образе.
+const MONTHS_GENITIVE = [
+  'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+  'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря',
+];
+
+function monthGenitive(date: Date): string {
+  return MONTHS_GENITIVE[date.getMonth()];
+}
+
 // Функция для обработки данных для пакета подключения
 function processConnectionPackageData(data: ConnectionPackageData): any {
   const protocolDate = new Date(data.protocol_date);
   const day = protocolDate.getDate().toString();
-  const month = protocolDate.toLocaleDateString('ru-RU', { month: 'long' });
+  const month = monthGenitive(protocolDate);
   const year = protocolDate.getFullYear();
   const dayAndMonth = `${day} ${month}`;
   
@@ -59,7 +71,7 @@ function processConnectionPackageData(data: ConnectionPackageData): any {
 function processNewCooperativeData(data: NewCooperativeData): any {
   const foundingDate = new Date(data.founding_date);
   const day = foundingDate.getDate().toString();
-  const month = foundingDate.toLocaleDateString('ru-RU', { month: 'long' });
+  const month = monthGenitive(foundingDate);
   const year = foundingDate.getFullYear().toString();
   
   // Форматирование даты учредительного собрания для шапки документа (DD.MM.YYYY)
